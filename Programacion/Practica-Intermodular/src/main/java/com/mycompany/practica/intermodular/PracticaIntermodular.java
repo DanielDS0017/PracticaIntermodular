@@ -11,6 +11,6 @@ package com.mycompany.practica.intermodular;
 public class PracticaIntermodular {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        DataBaseManager DB=new DataBaseManager();
     }
 }
