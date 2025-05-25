@@ -108,3 +108,47 @@ INSERT INTO Videojuego (titulo, id_plataforma, id_genero) VALUES
 ('Call of Duty: Mobile', 5, 18),
 ('Genshin Impact', 5, 2),
 ('AFK Arena', 5, 2);
+
+ALTER TABLE Videojuego ADD fecha_creacion DATETIME;
+DELIMITER //
+CREATE TRIGGER trg_fecha_creacion
+BEFORE INSERT ON Videojuego
+FOR EACH ROW
+BEGIN
+    SET NEW.fecha_creacion = NOW();
+END;
+//
+DELIMITER ;
+
+CREATE TABLE PlataformaResumen (
+    id_plataforma INT PRIMARY KEY,
+    num_videojuegos INT DEFAULT 0,
+    FOREIGN KEY (id_plataforma) REFERENCES Plataforma(id_plataforma)
+);
+
+INSERT INTO PlataformaResumen (id_plataforma, num_videojuegos)
+SELECT id_plataforma, COUNT(*) FROM Videojuego GROUP BY id_plataforma;
+
+DELIMITER //
+CREATE TRIGGER trg_incrementar_contador
+AFTER INSERT ON Videojuego
+FOR EACH ROW
+BEGIN
+    UPDATE PlataformaResumen
+    SET num_videojuegos = num_videojuegos + 1
+    WHERE id_plataforma = NEW.id_plataforma;
+END;
+//
+DELIMITER ;
+
+DELIMITER //
+CREATE TRIGGER trg_decrementar_contador
+AFTER DELETE ON Videojuego
+FOR EACH ROW
+BEGIN
+    UPDATE PlataformaResumen
+    SET num_videojuegos = num_videojuegos - 1
+    WHERE id_plataforma = OLD.id_plataforma;
+END;
+//
+DELIMITER ;
