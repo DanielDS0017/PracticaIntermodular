@@ -1,4 +1,4 @@
--- Crear base de datos
+-- Crear la base de datos
 DROP DATABASE IF EXISTS VideojuegosDB;
 CREATE DATABASE VideojuegosDB;
 USE VideojuegosDB;
@@ -13,15 +13,6 @@ CREATE TABLE Plataforma (
 CREATE TABLE Genero (
     id_genero INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL
-);
-
--- Tabla intermedia para relación muchos-a-muchos entre Plataforma y Género
-CREATE TABLE Plataforma_Genero (
-    id_plataforma INT,
-    id_genero INT,
-    PRIMARY KEY (id_plataforma, id_genero),
-    FOREIGN KEY (id_plataforma) REFERENCES Plataforma(id_plataforma),
-    FOREIGN KEY (id_genero) REFERENCES Genero(id_genero)
 );
 
 -- Tabla de videojuegos
@@ -63,19 +54,6 @@ INSERT INTO Genero (nombre) VALUES
 ('Casual'),
 ('Battle Royale');
 
--- Insertar relación Plataforma-Género
-INSERT INTO Plataforma_Genero (id_plataforma, id_genero) VALUES
--- Xbox
-(1, 1), (1, 2), (1, 3), (1, 4),
--- PC
-(2, 2), (2, 5), (2, 6), (2, 7), (2, 8), (2, 9),
--- PlayStation
-(3, 2), (3, 10), (3, 11), (3, 12),
--- Nintendo Switch
-(4, 13), (4, 14), (4, 15), (4, 16),
--- Móvil
-(5, 17), (5, 5), (5, 18), (5, 2);
-
 -- Insertar videojuegos
 INSERT INTO Videojuego (titulo, id_plataforma, id_genero) VALUES
 -- Xbox
@@ -111,7 +89,7 @@ INSERT INTO Videojuego (titulo, id_plataforma, id_genero) VALUES
 ('Tekken 8', 3, 12),
 ('Street Fighter 6', 3, 12),
 
--- Nintendo Switch
+-- Nintendo
 ('Super Mario Odyssey', 4, 13),
 ('Donkey Kong Country: Tropical Freeze', 4, 13),
 ('The Legend of Zelda: Tears of the Kingdom', 4, 14),
