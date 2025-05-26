@@ -12,7 +12,7 @@ public class PracticaIntermodular {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int opcion;
-        String urlWeb = "https://www.youtube.com/?app=desktop&hl=es"; 
+        String urlWeb = "http://ec2-44-203-198-69.compute-1.amazonaws.com/pagina_intermodular/index.html"; 
         DataBaseManager BD = new DataBaseManager();
 
         do {
