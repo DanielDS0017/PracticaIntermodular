@@ -1,0 +1,107 @@
+/* tabla.css */
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f4f9;
+  margin: 0;
+  padding: 20px;
+  color: #333;
+}
+
+section {
+  max-width: 1200px;
+  margin: auto;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+header h2 {
+  margin: 0;
+  font-size: 24px;
+  color: #2c3e50;
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav ul li {
+  display: inline-block;
+  margin-left: 15px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: #2980b9;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+  color: #1abc9c;
+}
+
+.tabla-juegos {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+.tabla-juegos thead {
+  background-color: #2c3e50;
+  color: white;
+}
+
+.tabla-juegos th,
+.tabla-juegos td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.tabla-juegos tr:hover {
+  background-color: #f1f1f1;
+}
+
+.tabla-juegos td {
+  vertical-align: top;
+}
+
+@media (max-width: 768px) {
+  .tabla-juegos, .tabla-juegos thead, .tabla-juegos tbody, .tabla-juegos th, .tabla-juegos td, .tabla-juegos tr {
+    display: block;
+  }
+
+  .tabla-juegos thead tr {
+    display: none;
+  }
+
+  .tabla-juegos td {
+    padding-left: 50%;
+    position: relative;
+  }
+
+  .tabla-juegos td::before {
+    position: absolute;
+    left: 10px;
+    top: 12px;
+    white-space: nowrap;
+    font-weight: bold;
+    color: #555;
+    content: attr(data-label);
+  }
+}
+
