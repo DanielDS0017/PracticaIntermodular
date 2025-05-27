@@ -160,3 +160,9 @@ VALUES ('Nuevo Juego Prueba', 1, 1);
 -- 14. Verificar que fecha_creacion y conteo funcionan correctamente
 SELECT * FROM Videojuego WHERE titulo = 'Nuevo Juego Prueba';
 SELECT * FROM PlataformaConteo;
+
+
+
+
+
+
