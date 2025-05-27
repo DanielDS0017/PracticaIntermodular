@@ -19,7 +19,7 @@ public class DataBaseManager {
     public DataBaseManager() {
         
         try {
-            this.url = "jdbc:mysql://proyecto-intermodular.czpatkpp3lc2.us-east-1.rds.amazonaws.com/";
+            this.url = "jdbc:mysql://proyecto-intermodular.czpatkpp3lc2.us-east-1.rds.amazonaws.com/VideojuegosDB";
             this.user = "root";
             this.password = "rootMedac";
             conn= DriverManager.getConnection(url, user, password); //Se introducen los parametros para acceder a la base de datos

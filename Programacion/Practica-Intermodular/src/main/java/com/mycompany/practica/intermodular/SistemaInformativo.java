@@ -5,15 +5,35 @@ package com.mycompany.practica.intermodular;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class SistemaInformativo { //Clase contenedor de informacion 
+public class SistemaInformativo {
+
+    private List<Videojuego> videojuegos;
     private List<Plataforma> plataformas;
     private List<Genero> generos;
 
-    public SistemaInformativo(List<Plataforma> plataformas, List<Genero> generos) {
-        this.plataformas = plataformas;
-        this.generos = generos;
+    public SistemaInformativo() {
+        this.videojuegos = new ArrayList<>();
+        this.plataformas = new ArrayList<>();
+        this.generos = new ArrayList<>();
+    }
+
+    // Métodos para agregar datos
+    public void agregarVideojuego(Videojuego videojuego) {
+        videojuegos.add(videojuego);
+    }
+
+    public void agregarPlataforma(Plataforma plataforma) {
+        plataformas.add(plataforma);
+    }
+
+    public void agregarGenero(Genero genero) {
+        generos.add(genero);
+    }
+
+    // Métodos de obtención
+    public List<Videojuego> getVideojuegos() {
+        return videojuegos;
     }
 
     public List<Plataforma> getPlataformas() {
@@ -24,31 +44,49 @@ public class SistemaInformativo { //Clase contenedor de informacion
         return generos;
     }
 
-    public List<Videojuego> getTodosLosVideojuegos() {
-        List<Videojuego> todos = new ArrayList<>();
-        for (Plataforma plataforma : plataformas) {
-            todos.addAll(plataforma.getVideojuegos());
-        }
-        return todos;
-    }
-
-    public List<Videojuego> getVideojuegosPorGenero(int idGenero) {
-        return getTodosLosVideojuegos().stream()
-                .filter(v -> v.getGenero().getIdGenero() == idGenero)
-                .collect(Collectors.toList());
-    }
-
-    public Plataforma getPlataformaPorId(int id) {
+    // Métodos de búsqueda simples
+    public Plataforma buscarPlataformaPorId(int id) {
         for (Plataforma p : plataformas) {
-            if (p.getIdPlataforma() == id) return p;
+            if (p.getIdPlataforma() == id) {
+                return p;
+            }
         }
         return null;
     }
 
-    public Genero getGeneroPorId(int id) {
+    public Genero buscarGeneroPorId(int id) {
         for (Genero g : generos) {
-            if (g.getIdGenero() == id) return g;
+            if (g.getIdGenero() == id) {
+                return g;
+            }
         }
         return null;
+    }
+
+    public Videojuego buscarVideojuegoPorId(int id) {
+        for (Videojuego v : videojuegos) {
+            if (v.getIdVideojuego() == id) {
+                return v;
+            }
+        }
+        return null;
+    }
+
+    // Método para imprimir todo el contenido
+    public void mostrarInformacion() {
+        System.out.println("=== Plataformas ===");
+        for (Plataforma p : plataformas) {
+            System.out.println(p);
+        }
+
+        System.out.println("\n=== Géneros ===");
+        for (Genero g : generos) {
+            System.out.println(g);
+        }
+
+        System.out.println("\n=== Videojuegos ===");
+        for (Videojuego v : videojuegos) {
+            System.out.println(v);
+        }
     }
 }
