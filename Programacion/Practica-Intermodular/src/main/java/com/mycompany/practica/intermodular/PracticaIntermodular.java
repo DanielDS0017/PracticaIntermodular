@@ -13,13 +13,16 @@ public class PracticaIntermodular {
         Scanner sc = new Scanner(System.in);
         int opcion;
         String urlWeb = "http://ec2-44-203-198-69.compute-1.amazonaws.com/pagina_intermodular/index.html"; 
-        DataBaseManager BD = new DataBaseManager();
-
+        DataBaseManager DB = new DataBaseManager(); //Abrir base de datos
+        SistemaInformativo SI=new SistemaInformativo(); //Cargar el sistema informativo
+        
+        //Sirve para cargar los datos desde la base de datos
+        DB.mostrarDatos(SI);
         do {
             System.out.println("\n--- MENÚ PRINCIPAL ---");
             System.out.println("1. Ver plataformas");
             System.out.println("2. Ver videojuegos");
-            System.out.println("3. Ver géneros");
+            System.out.println("3. Ver generos");
             System.out.println("4. Abrir página web del proyecto");
             System.out.println("5. Salir");
             System.out.print("Elige una opción: ");
@@ -27,22 +30,53 @@ public class PracticaIntermodular {
 
             switch (opcion) {
                 case 1:
-                    // mostrar plataformas...
+                    System.out.println("\n--- LISTA DE PLATAFORMAS ---");
+                    if (SI.getPlataformas().isEmpty()) {
+                        System.out.println("No hay plataformas disponibles.");
+                    } else {
+                        for (Plataforma p : SI.getPlataformas()) {
+                            System.out.println("ID: " + p.getIdPlataforma() + " - Nombre: " + p.getNombre());
+                        }
+                    }
+                    sc.nextLine();
                     break;
+
                 case 2:
-                    // mostrar videojuegos...
+                    System.out.println("\n--- LISTA DE VIDEOJUEGOS ---");
+                    if (SI.getVideojuegos().isEmpty()) {
+                        System.out.println("No hay videojuegos disponibles.");
+                    } else {
+                        for (Videojuego v : SI.getVideojuegos()) {
+                            System.out.println("ID: " + v.getIdVideojuego() 
+                                + " - Título: " + v.getTitulo() 
+                                + " - Plataforma ID: " + v.getIdPlataforma() 
+                                + " - Género ID: " + v.getIdGenero() 
+                                + " - Fecha creación: " + v.getFechaCreacion());
+                        }
+                    }
+                    sc.nextLine();
                     break;
+
                 case 3:
-                    // mostrar géneros...
+                    System.out.println("\n--- LISTA DE GÉNEROS ---");
+                    if (SI.getGeneros().isEmpty()) {
+                        System.out.println("No hay géneros disponibles.");
+                    } else {
+                        for (Genero g : SI.getGeneros()) {
+                            System.out.println("ID: " + g.getIdGenero() + " - Nombre: " + g.getNombre());
+                        }
+                    }
+                    sc.nextLine();
                     break;
                 case 4:
                     abrirPaginaWeb(urlWeb);
                     break;
                 case 5:
                     System.out.println("¡Hasta luego!");
+                    DB.cerrarConexion();
                     break;
                 default:
-                    System.out.println("Opción no válida.");
+                    System.out.println("Opcion no valida.");
             }
         } while (opcion != 5);
 
