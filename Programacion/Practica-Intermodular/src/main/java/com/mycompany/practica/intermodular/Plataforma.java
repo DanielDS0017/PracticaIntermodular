@@ -2,27 +2,40 @@
 
 package com.mycompany.practica.intermodular;
 
-import java.util.List;
 
-import java.util.List;
 
 public class Plataforma {
     private int idPlataforma;
     private String nombre;
-    private List<Videojuego> videojuegos; // Relación 1:N
 
-    public Plataforma(int idPlataforma, String nombre, List<Videojuego> videojuegos) {
+    
+
+    public Plataforma(int idPlataforma, String nombre) {
         this.idPlataforma = idPlataforma;
         this.nombre = nombre;
-        this.videojuegos = videojuegos;
     }
 
-    public int getIdPlataforma() { return idPlataforma; }
-    public String getNombre() { return nombre; }
-    public List<Videojuego> getVideojuegos() { return videojuegos; }
+    public int getIdPlataforma() {
+        return idPlataforma;
+    }
+
+    public void setIdPlataforma(int idPlataforma) {
+        this.idPlataforma = idPlataforma;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
 
     @Override
     public String toString() {
-        return idPlataforma + ". " + nombre;
+        return "Plataforma{" +
+                "idPlataforma=" + idPlataforma +
+                ", nombre='" + nombre + '\'' +
+                '}';
     }
 }
