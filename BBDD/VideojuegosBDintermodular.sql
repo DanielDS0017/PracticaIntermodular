@@ -1,31 +1,67 @@
--- Crear la base de datos
+-- 1. Eliminar y crear la base de datos
 DROP DATABASE IF EXISTS VideojuegosDB;
 CREATE DATABASE VideojuegosDB;
 USE VideojuegosDB;
 
--- Tabla de plataformas
+-- 2. Crear tabla Plataforma
 CREATE TABLE Plataforma (
     id_plataforma INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL
 );
 
--- Tabla de géneros
+-- 3. Crear tabla Genero
 CREATE TABLE Genero (
     id_genero INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(50) NOT NULL
 );
 
--- Tabla de videojuegos
+-- 4. Crear tabla Videojuego (ya incluye la columna fecha_creacion)
 CREATE TABLE Videojuego (
     id_videojuego INT AUTO_INCREMENT PRIMARY KEY,
     titulo VARCHAR(100) NOT NULL,
-    id_plataforma INT,
-    id_genero INT,
+    id_plataforma INT NOT NULL,
+    id_genero INT NOT NULL,
+    fecha_creacion DATETIME,
     FOREIGN KEY (id_plataforma) REFERENCES Plataforma(id_plataforma),
     FOREIGN KEY (id_genero) REFERENCES Genero(id_genero)
 );
 
--- Insertar plataformas
+-- 5. Crear trigger para asignar fecha de creación automáticamente
+DELIMITER //
+
+CREATE TRIGGER trg_set_fecha_creacion
+BEFORE INSERT ON Videojuego
+FOR EACH ROW
+BEGIN
+    SET NEW.fecha_creacion = NOW();
+END;
+//
+
+DELIMITER ;
+
+-- 6. Crear tabla PlataformaConteo para llevar el total de videojuegos por plataforma
+CREATE TABLE PlataformaConteo (
+    id_plataforma INT PRIMARY KEY,
+    total_videojuegos INT DEFAULT 0,
+    FOREIGN KEY (id_plataforma) REFERENCES Plataforma(id_plataforma)
+);
+
+-- 7. Crear trigger para incrementar el conteo al insertar un videojuego
+DELIMITER //
+
+CREATE TRIGGER trg_incrementar_conteo
+AFTER INSERT ON Videojuego
+FOR EACH ROW
+BEGIN
+    UPDATE PlataformaConteo
+    SET total_videojuegos = total_videojuegos + 1
+    WHERE id_plataforma = NEW.id_plataforma;
+END;
+//
+
+DELIMITER ;
+
+-- 8. Insertar plataformas
 INSERT INTO Plataforma (nombre) VALUES
 ('Xbox'),
 ('PC'),
@@ -33,7 +69,7 @@ INSERT INTO Plataforma (nombre) VALUES
 ('Nintendo Switch'),
 ('Móvil');
 
--- Insertar géneros
+-- 9. Insertar géneros
 INSERT INTO Genero (nombre) VALUES
 ('Acción'),
 ('RPG'),
@@ -54,7 +90,11 @@ INSERT INTO Genero (nombre) VALUES
 ('Casual'),
 ('Battle Royale');
 
--- Insertar videojuegos
+-- 10. Inicializar PlataformaConteo con las plataformas existentes
+INSERT INTO PlataformaConteo (id_plataforma)
+SELECT id_plataforma FROM Plataforma;
+
+-- 11. Insertar videojuegos (¡Ahora todos tendrán fecha_creacion automáticamente!)
 INSERT INTO Videojuego (titulo, id_plataforma, id_genero) VALUES
 -- Xbox
 ('Halo Infinite', 1, 1),
@@ -108,3 +148,15 @@ INSERT INTO Videojuego (titulo, id_plataforma, id_genero) VALUES
 ('Call of Duty: Mobile', 5, 18),
 ('Genshin Impact', 5, 2),
 ('AFK Arena', 5, 2);
+
+-- 12. Verificar los datos insertados
+SELECT * FROM Videojuego;
+SELECT * FROM PlataformaConteo;
+
+-- 13. Insertar un juego nuevo para comprobar triggers
+INSERT INTO Videojuego (titulo, id_plataforma, id_genero)
+VALUES ('Nuevo Juego Prueba', 1, 1);
+
+-- 14. Verificar que fecha_creacion y conteo funcionan correctamente
+SELECT * FROM Videojuego WHERE titulo = 'Nuevo Juego Prueba';
+SELECT * FROM PlataformaConteo;
